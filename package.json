@@ -38,6 +38,9 @@
         "lines": 90,
         "statements": 90
       }
+    },
+    "moduleNameMapper": {
+      "^server-cache(.*)$": "<rootDir>/src$1"
     }
   },
   "devDependencies": {
