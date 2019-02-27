@@ -3,9 +3,7 @@ node_js:
   - "stable"
   - "11"
   - "10"
-  - "9"
   - "8"
-  - "7"
   - "6"
 after_script:
   - "npm run codecov"
