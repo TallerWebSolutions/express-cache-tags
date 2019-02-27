@@ -2,7 +2,7 @@
   "extends": ["standard"],
   "overrides": [
     {
-      "files": ["*.test.js"],
+      "files": ["*.test.js", "jest/*"],
       "globals": {
         "jest": false,
         "describe": false,
@@ -15,5 +15,4 @@
       }
     }
   ]
-
 }

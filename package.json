@@ -41,7 +41,10 @@
     },
     "moduleNameMapper": {
       "^server-cache(.*)$": "<rootDir>/src$1"
-    }
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest/setup.js"
+    ]
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
