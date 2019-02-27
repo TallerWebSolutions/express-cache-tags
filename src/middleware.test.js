@@ -214,6 +214,24 @@ describe('middleware', () => {
       })
     })
 
+    describe('shouldCache', () => {
+      it('should be possible to avoid caching', async () => {
+        const cache = { put: jest.fn(), get: jest.fn() }
+        const cacheFactory = () => cache
+
+        const app = express()
+          .use(createMiddleware({ cacheFactory, shouldCache: () => false }))
+          .get('/test', testingEndpoint)
+
+        await request(app)
+          .get('/test')
+          .expect(res => expect(res.get('CDN-Cache')).toBe(undefined))
+
+        expect(cache.put).not.toHaveBeenCalled()
+        expect(cache.get).not.toHaveBeenCalled()
+      })
+    })
+
     describe('statusHeader', () => {
       it('should send cache status header', async () => {
         const app = express()
