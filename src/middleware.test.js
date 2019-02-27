@@ -274,5 +274,26 @@ describe('middleware', () => {
           .expect(res => expect(res.get('CDN-Cache')).toBe(undefined))
       })
     })
+
+    describe('cacheTags', () => {
+      describe('extract', () => {
+        it('should be possible to customize cache-tag extraction', async () => {
+          const cache = { put: jest.fn(), get: jest.fn() }
+          const cacheFactory = () => cache
+          const extract = () => ['custom']
+
+          const app = express()
+            .use(createMiddleware({ cacheFactory, cacheTags: { extract } }))
+            .get('/test', testingEndpoint)
+
+          await request(app).get('/test')
+
+          expect(cache.put).toHaveProperty('mock.calls.0.1.tags', [
+            '/test',
+            'custom'
+          ])
+        })
+      })
+    })
   })
 })
