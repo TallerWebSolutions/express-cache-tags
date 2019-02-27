@@ -9,7 +9,7 @@
   "scripts": {
     "compile": "babel src -d lib --ignore src/**/*.test.js",
     "lint": "eslint src",
-    "prepublish": "yarn qa && yarn compile",
+    "prepare": "yarn qa && yarn compile",
     "qa": "yarn test && yarn lint",
     "release": "standard-version",
     "test": "jest src"
