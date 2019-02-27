@@ -94,6 +94,38 @@ describe('middleware', () => {
     )
   })
 
+  it('should NOT purge cache when unknown tag sent', async () => {
+    let output
+
+    const app = express()
+      .use(createMiddleware())
+      .get('/test', testingEndpoint)
+
+    await request(app)
+      .get('/test')
+      .expect(200, 'cache testing endpoint')
+
+    await request(app)
+      .get('/test')
+      .expect(200, 'cache testing endpoint')
+
+    await request(app)
+      .get('/_cache/purge?invalidate=unknown')
+      .expect(200, { purged: [] })
+
+    output = std.flush().stdout
+    expect(output).toHaveSomeMatching(/Purged "unknown"/)
+
+    await request(app)
+      .get('/test')
+      .expect(200, 'cache testing endpoint')
+
+    output = std.flush().stdout
+
+    expect(testingEndpoint).toHaveBeenCalledTimes(1) // not called a second time
+    expect(output).toHaveSomeMatching(/HIT "GET:\/test"/)
+  })
+
   it('should clear cache', async () => {
     let output
 
