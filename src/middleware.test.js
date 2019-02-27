@@ -181,7 +181,7 @@ describe('middleware', () => {
       })
 
       it('should be possible to provide a custom cache', async () => {
-        const cache = { put: jest.fn(), get: jest.fn(null) }
+        const cache = { put: jest.fn(), get: jest.fn() }
         const cacheFactory = () => cache
 
         const app = express()
@@ -191,6 +191,25 @@ describe('middleware', () => {
         await request(app).get('/test')
 
         expect(cache.get).toHaveBeenCalledTimes(1)
+        expect(cache.put).toHaveBeenCalledTimes(1)
+      })
+    })
+
+    describe('generateKey', () => {
+      it('should be possible to provide a custom cache key generator', async () => {
+        const cache = { put: jest.fn(), get: jest.fn() }
+        const cacheFactory = () => cache
+        const generateKey = jest.fn(() => 'custom-key')
+
+        const app = express()
+          .use(createMiddleware({ cacheFactory, generateKey }))
+          .get('/test', testingEndpoint)
+
+        await request(app).get('/test')
+
+        expect(generateKey).toHaveBeenCalledTimes(1)
+        expect(cache.get).toHaveBeenCalledTimes(1)
+        expect(cache.get).toHaveBeenCalledWith('custom-key')
         expect(cache.put).toHaveBeenCalledTimes(1)
       })
     })
