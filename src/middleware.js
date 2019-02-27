@@ -58,7 +58,8 @@ export const defaultOptions = {
      *
      * @return {String}
      */
-    extract: (req, res) => (res.get('Edge-Cache-Tag') || '').split(',')
+    extract: (req, res) =>
+      (res.get('Edge-Cache-Tag') || '').split(',').filter(Boolean)
   },
 
   /**
@@ -73,7 +74,8 @@ export const defaultOptions = {
      *
      * @return {String}
      */
-    extract: (req, res) => (req.query.invalidate || '').split(',')
+    extract: (req, res) =>
+      (req.query.invalidate || '').split(',').filter(Boolean)
   }
 }
 
