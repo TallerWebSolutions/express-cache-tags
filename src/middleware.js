@@ -112,6 +112,7 @@ export const createMiddleware = (options = {}) => {
     const status = miss ? 'MISS' : 'HIT'
     const statusHeaderContent = statusHeader ? { [statusHeader]: status } : {}
 
+    /* istanbul ignore next */
     if (logger.enabled) log.info(`${status} "${key}"`)
 
     if (miss) {
@@ -134,6 +135,7 @@ export const createMiddleware = (options = {}) => {
         // append cache-tags to the caching tags.
         if (cacheTags) tags = tags.concat(cacheTags.extract(req, res))
 
+        /* istanbul ignore next */
         if (logger.enabled) log.info(`Cached "${key}": [${tags.join(', ')}]`)
 
         cached = { key, tags, response: { endArgs, headers } }
@@ -155,9 +157,12 @@ export const createMiddleware = (options = {}) => {
     const purged = await cache.keys()
     await cache.clear()
 
-    log[purged.length ? 'success' : 'warning'](
-      `Purged everything: [${purged.join(', ')}]`
-    )
+    /* istanbul ignore next */
+    if (logger.enabled) {
+      log[purged.length ? 'success' : 'warning'](
+        `Purged everything: [${purged.join(', ')}]`
+      )
+    }
 
     res.json({ purged })
   }
@@ -173,9 +178,12 @@ export const createMiddleware = (options = {}) => {
       }
     }
 
-    log[purged.length ? 'success' : 'warning'](
-      `Purged "${invalidate}": [${purged.join(', ')}]`
-    )
+    /* istanbul ignore next */
+    if (logger.enabled) {
+      log[purged.length ? 'success' : 'warning'](
+        `Purged "${invalidate}": [${purged.join(', ')}]`
+      )
+    }
 
     res.json({ purged })
   }
