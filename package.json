@@ -9,12 +9,16 @@
   "scripts": {
     "compile": "babel src -d lib --ignore src/**/*.test.js",
     "lint": "eslint src",
-    "precommit": "lint-staged",
-    "prepush": "yarn qa",
     "prepublish": "yarn qa && yarn compile",
     "qa": "yarn test && yarn lint",
     "release": "standard-version",
     "test": "jest src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn qa"
+    }
   },
   "lint-staged": {
     "*.js": [
