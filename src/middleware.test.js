@@ -160,46 +160,82 @@ describe('middleware', () => {
     )
   })
 
-  describe('status header', () => {
-    it('should send cache status header', async () => {
-      const app = express()
-        .use(createMiddleware())
-        .get('/test', testingEndpoint)
+  describe('options', () => {
+    describe('cacheFactory', () => {
+      it('should always use a new cache instance by default', async () => {
+        const app1 = express()
+          .use(createMiddleware())
+          .get('/test', testingEndpoint)
 
-      await request(app)
-        .get('/test')
-        .expect('CDN-Cache', 'MISS')
+        const app2 = express()
+          .use(createMiddleware())
+          .get('/test', testingEndpoint)
 
-      await request(app)
-        .get('/test')
-        .expect('CDN-Cache', 'HIT')
+        await request(app1)
+          .get('/test')
+          .expect('CDN-Cache', 'MISS')
+
+        await request(app2)
+          .get('/test')
+          .expect('CDN-Cache', 'MISS')
+      })
+
+      it('should be possible to provide a custom cache', async () => {
+        const cache = { put: jest.fn(), get: jest.fn(null) }
+        const cacheFactory = () => cache
+
+        const app = express()
+          .use(createMiddleware({ cacheFactory }))
+          .get('/test', testingEndpoint)
+
+        await request(app).get('/test')
+
+        expect(cache.get).toHaveBeenCalledTimes(1)
+        expect(cache.put).toHaveBeenCalledTimes(1)
+      })
     })
-    it('should send custom cache status header', async () => {
-      const app = express()
-        .use(createMiddleware({ statusHeader: 'Custom-CDN-Cache' }))
-        .get('/test', testingEndpoint)
 
-      await request(app)
-        .get('/test')
-        .expect('Custom-CDN-Cache', 'MISS')
+    describe('statusHeader', () => {
+      it('should send cache status header', async () => {
+        const app = express()
+          .use(createMiddleware())
+          .get('/test', testingEndpoint)
 
-      await request(app)
-        .get('/test')
-        .expect('Custom-CDN-Cache', 'HIT')
-    })
+        await request(app)
+          .get('/test')
+          .expect('CDN-Cache', 'MISS')
 
-    it('should NOT send cache status header when disabled', async () => {
-      const app = express()
-        .use(createMiddleware({ statusHeader: false }))
-        .get('/test', testingEndpoint)
+        await request(app)
+          .get('/test')
+          .expect('CDN-Cache', 'HIT')
+      })
+      it('should send custom cache status header', async () => {
+        const app = express()
+          .use(createMiddleware({ statusHeader: 'Custom-CDN-Cache' }))
+          .get('/test', testingEndpoint)
 
-      await request(app)
-        .get('/test')
-        .expect(res => expect(res.get('CDN-Cache')).toBe(undefined))
+        await request(app)
+          .get('/test')
+          .expect('Custom-CDN-Cache', 'MISS')
 
-      await request(app)
-        .get('/test')
-        .expect(res => expect(res.get('CDN-Cache')).toBe(undefined))
+        await request(app)
+          .get('/test')
+          .expect('Custom-CDN-Cache', 'HIT')
+      })
+
+      it('should NOT send cache status header when disabled', async () => {
+        const app = express()
+          .use(createMiddleware({ statusHeader: false }))
+          .get('/test', testingEndpoint)
+
+        await request(app)
+          .get('/test')
+          .expect(res => expect(res.get('CDN-Cache')).toBe(undefined))
+
+        await request(app)
+          .get('/test')
+          .expect(res => expect(res.get('CDN-Cache')).toBe(undefined))
+      })
     })
   })
 })
