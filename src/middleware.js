@@ -116,6 +116,8 @@ export const createMiddleware = (options = {}) => {
     if (logger.enabled) log.info(`${status} "${key}"`)
 
     if (miss) {
+      res.set(statusHeaderContent)
+
       let endArgs
       const end = res.end.bind(res)
 
