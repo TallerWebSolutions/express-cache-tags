@@ -130,6 +130,7 @@ export const createMiddleware = (options = {}) => {
       }
 
       onFinished(res, async (err, res) => {
+        /* istanbul ignore next */
         if (err) throw err
 
         // use the requests URL as a caching-tag for URL based purging.
