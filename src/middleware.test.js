@@ -276,6 +276,19 @@ describe('middleware', () => {
     })
 
     describe('cacheTags', () => {
+      it('should be possible to disable cache-tags entirely', async () => {
+        const cache = { put: jest.fn(), get: jest.fn() }
+        const cacheFactory = () => cache
+
+        const app = express()
+          .use(createMiddleware({ cacheFactory, cacheTags: false }))
+          .get('/test', testingEndpoint)
+
+        await request(app).get('/test')
+
+        expect(cache.put).toHaveProperty('mock.calls.0.1.tags', ['/test'])
+      })
+
       describe('extract', () => {
         it('should work even when no cache-tags header provided', async () => {
           const cache = { put: jest.fn(), get: jest.fn() }
