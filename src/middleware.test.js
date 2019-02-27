@@ -8,7 +8,7 @@ const createMiddleware = __get__('createMiddleware')
 
 describe('middleware', () => {
   const testingEndpoint = jest.fn((req, res) =>
-    res.set('Edge-Cache-Tag', 'one,two,three').send('cache testing endpoint')
+    res.set('Cache-Tags', 'one,two,three').send('cache testing endpoint')
   )
 
   beforeEach(() => jest.clearAllMocks())

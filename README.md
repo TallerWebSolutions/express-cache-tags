@@ -50,7 +50,7 @@ All the usage options receive the same options object:
 | logger.enabled    | Wheter or not to log operations         | `true`                                                                       |
 | logger.scope      | Logging scope (see `signale`)           | `'CACHE'`                                                                    |
 | cacheTags         | Cache-tags specific options             |                                                                              |
-| cacheTags.extract | Request cache-tags extractor            | `(req, res) => (res.get('Edge-Cache-Tag') || '').split(',').filter(Boolean)` |
+| cacheTags.extract | Request cache-tags extractor            | `(req, res) => (res.get('Cache-Tags') || '').split(',').filter(Boolean)` |
 | purger            | Purging specific options                |                                                                              |
 | purger.extract    | Purging tags extractor                  | `(req, res) => (req.query.invalidate || '').split(',').filter(Boolean)`      |
 

@@ -59,7 +59,7 @@ export const defaultOptions = {
      * @return {String}
      */
     extract: (req, res) =>
-      (res.get('Edge-Cache-Tag') || '').split(',').filter(Boolean)
+      (res.get('Cache-Tags') || '').split(',').filter(Boolean)
   },
 
   /**
