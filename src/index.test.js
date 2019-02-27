@@ -1,6 +1,6 @@
-import * as serverCache from 'server-cache'
+import * as serverCache from 'express-cache-tags'
 
-describe('server-cache', () => {
+describe('express-cache-tags', () => {
   const exported = ['defaultOptions', 'createMiddleware']
 
   for (let name of exported) {

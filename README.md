@@ -1,12 +1,12 @@
-# server-cache
+# express-cache-tags
 
-[![npm version](https://img.shields.io/npm/v/server-cache.svg?style=flat-square)](https://www.npmjs.com/package/server-cache)
-[![Downloads/week](https://img.shields.io/npm/dw/server-cache.svg)](https://npmjs.org/package/server-cache)
-[![License](https://img.shields.io/npm/l/server-cache.svg)](https://github.com/lucasconstantino/server-cache/blob/master/package.json)
-[![build status](https://img.shields.io/travis/lucasconstantino/server-cache/master.svg?style=flat-square)](https://travis-ci.org/lucasconstantino/server-cache)
-[![coverage](https://img.shields.io/codecov/c/github/lucasconstantino/server-cache.svg?style=flat-square)](https://codecov.io/github/lucasconstantino/server-cache)
+[![npm version](https://img.shields.io/npm/v/express-cache-tags.svg?style=flat-square)](https://www.npmjs.com/package/express-cache-tags)
+[![Downloads/week](https://img.shields.io/npm/dw/express-cache-tags.svg)](https://npmjs.org/package/express-cache-tags)
+[![License](https://img.shields.io/npm/l/express-cache-tags.svg)](https://github.com/lucasconstantino/express-cache-tags/blob/master/package.json)
+[![build status](https://img.shields.io/travis/lucasconstantino/express-cache-tags/master.svg?style=flat-square)](https://travis-ci.org/lucasconstantino/express-cache-tags)
+[![coverage](https://img.shields.io/codecov/c/github/lucasconstantino/express-cache-tags.svg?style=flat-square)](https://codecov.io/github/lucasconstantino/express-cache-tags)
 
-**A _(not yet)_ fully featured caching solution for node servers.**
+**A _(not yet)_ fully featured cache-tagging solution for node servers.**
 
 ---
 
@@ -19,7 +19,7 @@ Most HTTP servers rely on third-party systems for caching (such as CDNs). Even t
 ### Installation
 
 ```
-npm i server-cache
+npm i express-cache-tags
 ```
 
 ### Usage
@@ -28,7 +28,7 @@ npm i server-cache
 
 ```js
 import express from 'express'
-import cache from 'server-cache'
+import cache from 'express-cache-tags'
 
 express()
   .use(cache())
@@ -40,19 +40,19 @@ express()
 
 All the usage options receive the same options object:
 
-| prop              | description                             | default                                                                      |
-| ----------------- | --------------------------------------- | ---------------------------------------------------------------------------- |
-| cacheFactory      | A [cache-object](#cache-object) factory | A new [`memory-cache`](https://github.com/ptarjan/node-cache) instace        |
-| generateKey       | A cache-key generator                   | `(req) => \`${req.method}:${rq.url}\``                                       |
-| shouldCache       | Predicate to decide caching             | `() => true // cache anything the middleware touches`                        |
-| statusHeader      | Hitting status header name              | `'CDN-Cache'`                                                                |
-| logger            | Logging specific options                |                                                                              |
-| logger.enabled    | Wheter or not to log operations         | `true`                                                                       |
-| logger.scope      | Logging scope (see `signale`)           | `'CACHE'`                                                                    |
-| cacheTags         | Cache-tags specific options             |                                                                              |
+| prop              | description                             | default                                                                  |
+| ----------------- | --------------------------------------- | ------------------------------------------------------------------------ |
+| cacheFactory      | A [cache-object](#cache-object) factory | A new [`memory-cache`](https://github.com/ptarjan/node-cache) instace    |
+| generateKey       | A cache-key generator                   | `(req) => \`${req.method}:${rq.url}\``                                   |
+| shouldCache       | Predicate to decide caching             | `() => true // cache anything the middleware touches`                    |
+| statusHeader      | Hitting status header name              | `'CDN-Cache'`                                                            |
+| logger            | Logging specific options                |                                                                          |
+| logger.enabled    | Wheter or not to log operations         | `true`                                                                   |
+| logger.scope      | Logging scope (see `signale`)           | `'CACHE'`                                                                |
+| cacheTags         | Cache-tags specific options             |                                                                          |
 | cacheTags.extract | Request cache-tags extractor            | `(req, res) => (res.get('Cache-Tags') || '').split(',').filter(Boolean)` |
-| purger            | Purging specific options                |                                                                              |
-| purger.extract    | Purging tags extractor                  | `(req, res) => (req.query.invalidate || '').split(',').filter(Boolean)`      |
+| purger            | Purging specific options                |                                                                          |
+| purger.extract    | Purging tags extractor                  | `(req, res) => (req.query.invalidate || '').split(',').filter(Boolean)`  |
 
 ##### Cache-object
 

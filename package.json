@@ -1,8 +1,8 @@
 {
-  "name": "server-cache",
+  "name": "express-cache-tags",
   "version": "1.0.0",
   "private": false,
-  "description": "A (not yet) fully featured caching solution for node servers.",
+  "description": "A (not yet) fully featured cache-tagging solution for node servers.",
   "license": "MIT",
   "author": "Lucas Constantino Silva <lucasconstantinosilva@gmail.com>",
   "main": "lib/index.js",
@@ -44,7 +44,7 @@
       }
     },
     "moduleNameMapper": {
-      "^server-cache(.*)$": "<rootDir>/src$1"
+      "^express-cache-tags(.*)$": "<rootDir>/src$1"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/jest/setup.js"
