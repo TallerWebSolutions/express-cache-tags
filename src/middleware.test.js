@@ -73,11 +73,46 @@ describe('middleware', () => {
       .get('/test')
       .expect(200, 'cache testing endpoint')
 
-    std.flush()
-
     await request(app)
       .get('/_cache/purge?invalidate=one')
       .expect(200, { purged: ['GET:/test'] })
+
+    output = std.flush().stdout
+    expect(output).toHaveSomeMatching(/Purged "one"/)
+
+    await request(app)
+      .get('/test')
+      .expect(200, 'cache testing endpoint')
+
+    output = std.flush().stdout
+
+    expect(testingEndpoint).toHaveBeenCalledTimes(2) // not called a second time
+    expect(output).not.toHaveSomeMatching(/HIT "GET:\/test"/)
+    expect(output).toHaveSomeMatching(/MISS "GET:\/test"/)
+    expect(output).toHaveSomeMatching(
+      /Cached "GET:\/test": \[\/test, one, two, three\]/
+    )
+  })
+
+  it('should clear cache', async () => {
+    let output
+
+    const app = express()
+      .use(createMiddleware())
+      .get('/test', testingEndpoint)
+
+    await request(app)
+      .get('/test')
+      .expect(200, 'cache testing endpoint')
+
+    std.flush()
+
+    await request(app)
+      .get('/_cache/clear')
+      .expect(200, { purged: ['GET:/test'] })
+
+    output = std.flush().stdout
+    expect(output).toHaveSomeMatching(/Purged everything/)
 
     await request(app)
       .get('/test')
