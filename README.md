@@ -36,6 +36,14 @@ express()
   .listen(3000)
 ```
 
+Any request will be cached using the request URL as basic cache-tag for invalidation. If a `Cache-Tags` header is present on any response, it will be considered as well.
+
+MISSes and HITs will be logged by default.
+
+#### Invalidation
+
+You can purge specific tags by sending GET requests to `/_cache/purge?invalidate=[TAG NAME]`. You can also purge by URL, by sending the URL as `invalidate` query param.
+
 #### Options
 
 All the usage options receive the same options object:
