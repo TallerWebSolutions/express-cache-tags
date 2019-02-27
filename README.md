@@ -2,9 +2,9 @@
 
 [![npm version](https://img.shields.io/npm/v/express-cache-tags.svg?style=flat-square)](https://www.npmjs.com/package/express-cache-tags)
 [![Downloads/week](https://img.shields.io/npm/dw/express-cache-tags.svg)](https://npmjs.org/package/express-cache-tags)
-[![License](https://img.shields.io/npm/l/express-cache-tags.svg)](https://github.com/lucasconstantino/express-cache-tags/blob/master/package.json)
-[![build status](https://img.shields.io/travis/lucasconstantino/express-cache-tags/master.svg?style=flat-square)](https://travis-ci.org/lucasconstantino/express-cache-tags)
-[![coverage](https://img.shields.io/codecov/c/github/lucasconstantino/express-cache-tags.svg?style=flat-square)](https://codecov.io/github/lucasconstantino/express-cache-tags)
+[![License](https://img.shields.io/npm/l/express-cache-tags.svg)](https://github.com/TallerWebSolutions/express-cache-tags/blob/master/package.json)
+[![build status](https://img.shields.io/travis/TallerWebSolutions/express-cache-tags/master.svg?style=flat-square)](https://travis-ci.org/TallerWebSolutions/express-cache-tags)
+[![coverage](https://img.shields.io/codecov/c/github/TallerWebSolutions/express-cache-tags.svg?style=flat-square)](https://codecov.io/github/TallerWebSolutions/express-cache-tags)
 
 **A _(not yet)_ fully featured cache-tagging solution for node servers.**
 
