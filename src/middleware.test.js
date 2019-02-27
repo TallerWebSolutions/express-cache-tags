@@ -159,4 +159,47 @@ describe('middleware', () => {
       /Cached "GET:\/test": \[\/test, one, two, three\]/
     )
   })
+
+  describe('status header', () => {
+    it('should send cache status header', async () => {
+      const app = express()
+        .use(createMiddleware())
+        .get('/test', testingEndpoint)
+
+      await request(app)
+        .get('/test')
+        .expect('CDN-Cache', 'MISS')
+
+      await request(app)
+        .get('/test')
+        .expect('CDN-Cache', 'HIT')
+    })
+    it('should send custom cache status header', async () => {
+      const app = express()
+        .use(createMiddleware({ statusHeader: 'Custom-CDN-Cache' }))
+        .get('/test', testingEndpoint)
+
+      await request(app)
+        .get('/test')
+        .expect('Custom-CDN-Cache', 'MISS')
+
+      await request(app)
+        .get('/test')
+        .expect('Custom-CDN-Cache', 'HIT')
+    })
+
+    it('should NOT send cache status header when disabled', async () => {
+      const app = express()
+        .use(createMiddleware({ statusHeader: false }))
+        .get('/test', testingEndpoint)
+
+      await request(app)
+        .get('/test')
+        .expect(res => expect(res.get('CDN-Cache')).toBe(undefined))
+
+      await request(app)
+        .get('/test')
+        .expect(res => expect(res.get('CDN-Cache')).toBe(undefined))
+    })
+  })
 })
