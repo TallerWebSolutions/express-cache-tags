@@ -277,6 +277,19 @@ describe('middleware', () => {
 
     describe('cacheTags', () => {
       describe('extract', () => {
+        it('should work even when no cache-tags header provided', async () => {
+          const cache = { put: jest.fn(), get: jest.fn() }
+          const cacheFactory = () => cache
+
+          const app = express()
+            .use(createMiddleware({ cacheFactory }))
+            .get('/test', (req, res) => res.send('cache testing endpoint'))
+
+          await request(app).get('/test')
+
+          expect(cache.put).toHaveProperty('mock.calls.0.1.tags', ['/test'])
+        })
+
         it('should be possible to customize cache-tag extraction', async () => {
           const cache = { put: jest.fn(), get: jest.fn() }
           const cacheFactory = () => cache
